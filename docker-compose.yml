@@ -1,0 +1,10 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:13.3
+    environment:
+      POSTGRES_PASSWORD: qazwsx
+      POSTGRES_USER: vampir
+      POSTGRES_DB: storageart
+    ports:
+      - "5432:5432"
