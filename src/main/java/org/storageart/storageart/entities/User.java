@@ -2,6 +2,8 @@ package org.storageart.storageart.entities;
 
 import javax.persistence.*;
 
+import java.util.Optional;
+
 @Entity
 @Table(name="users")
 public class User {

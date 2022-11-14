@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.storageart.storageart.entities.User;
 import org.storageart.storageart.repositories.UserRepository;
 
+import java.util.Optional;
+import java.util.function.Consumer;
+
 @SpringBootApplication
 public class StorageArtApplication {
 
@@ -39,9 +42,11 @@ public class StorageArtApplication {
             }
             log.info("");
 
-            User someUser = repository.findById(1L);
-            log.info("User found with findById(1L): ");
-            log.info(someUser.toString());
+            log.info("Finding user with findById(1L): ");
+            repository.findById(1L).ifPresentOrElse(
+                    user -> log.info("Found user with {}", user),
+                    () -> log.info("There is no user with id 1")
+            );
             log.info("");
 
             repository.deleteAll();
