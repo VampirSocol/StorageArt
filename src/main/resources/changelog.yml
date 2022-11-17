@@ -1,0 +1,20 @@
+databaseChangeLog:
+   - changeSet:
+       id: 1
+       author: vampir
+       changes:
+       - createTable:
+           tableName: users
+           columns:
+           - column:
+               name: nickname
+               type: TEXT
+               constraints:
+                   primaryKey:  true
+                   nullable:  false
+           - column:
+                name: id
+                type: BIGINT
+                constraints:
+                    primaryKey: true
+                    nullable: false
