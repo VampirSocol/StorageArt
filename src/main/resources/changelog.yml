@@ -10,11 +10,11 @@ databaseChangeLog:
                name: nickname
                type: TEXT
                constraints:
-                   primaryKey:  true
+                   primaryKey: false
                    nullable:  false
            - column:
                 name: id
-                type: BIGINT
+                type: SERIAL
                 constraints:
                     primaryKey: true
                     nullable: false

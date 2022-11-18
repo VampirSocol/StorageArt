@@ -9,8 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.storageart.storageart.entities.User;
 import org.storageart.storageart.repositories.UserRepository;
 
-import java.util.Optional;
-import java.util.function.Consumer;
 
 @SpringBootApplication
 public class StorageArtApplication {
