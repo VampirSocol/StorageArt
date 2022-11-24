@@ -11,9 +11,14 @@
     <changeSet id="1" author="vampir">
         <createTable tableName="users">
             <column name="id" type="serial">
-                <constraints primaryKey="true"/>
+                <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nickname" type="varchar"/>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

@@ -22,11 +22,11 @@ public class StorageArtApplication {
     @Bean
     public CommandLineRunner demo(UserRepository repository) {
         return (args) -> {
-            repository.save(new User("noname"));
-            repository.save(new User("dendrit"));
-            repository.save(new User("veralin"));
-            repository.save(new User("planze"));
-            repository.save(new User("name"));
+            repository.save(new User("noname", "1234"));
+            repository.save(new User("dendrit", "1234"));
+            repository.save(new User("veralin", "1234"));
+            repository.save(new User("planze", "1234"));
+            repository.save(new User("name", "1234"));
 
             log.info("Users found with findAll(): ");
             for(User user : repository.findAll()) {
@@ -34,10 +34,11 @@ public class StorageArtApplication {
             }
             log.info("");
 
-            log.info("User found with findByNickname('name'): ");
-            for (User user : repository.findByNickname("name")) {
-                log.info(user.toString());
-            }
+            log.info("Finding user with findByUsername('noname'): ");
+            repository.findByUsername("noname").ifPresentOrElse(
+                    user -> log.info("Found user with {}", user),
+                    () -> log.info("There is no user with name noname")
+            );
             log.info("");
 
             log.info("Finding user with findById(1L): ");
