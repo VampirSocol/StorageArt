@@ -6,9 +6,9 @@ import org.storageart.storageart.entities.User;
 import org.storageart.storageart.dto.UserData;
 
 @Component
-public class UserMap {
+public class UserMapper {
 
-    static public User toEntity(UserData userData){
+    public User toEntity(UserData userData){
         User user = new User();
 
         user.setId(userData.getId());
@@ -18,7 +18,7 @@ public class UserMap {
         return user;
     }
 
-    static public UserData toData(User user){
+    public UserData toData(User user){
         UserData userData = new UserData();
 
         userData.setId(user.getId());
