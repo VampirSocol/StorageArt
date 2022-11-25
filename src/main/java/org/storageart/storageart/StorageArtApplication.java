@@ -48,13 +48,13 @@ public class StorageArtApplication {
             );
             log.info("");
 
-            repository.deleteAll();
-
-            log.info("Users found with findAll() after deleteAll(): ");
-            for(User user : repository.findAll()) {
-                log.info(user.toString());
-            }
-            log.info("The end");
+//            repository.deleteAll();
+//
+//            log.info("Users found with findAll() after deleteAll(): ");
+//            for(User user : repository.findAll()) {
+//                log.info(user.toString());
+//            }
+//            log.info("The end");
 
         };
     }
