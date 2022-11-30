@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.storageart.storageart.entities.User;
 import org.storageart.storageart.repositories.UserRepository;
 
-
 @SpringBootApplication
 public class StorageArtApplication {
 
@@ -22,11 +21,11 @@ public class StorageArtApplication {
     @Bean
     public CommandLineRunner demo(UserRepository repository) {
         return (args) -> {
-            repository.save(new User("noname", "1234"));
-            repository.save(new User("dendrit", "1234"));
-            repository.save(new User("veralin", "1234"));
-            repository.save(new User("planze", "1234"));
-            repository.save(new User("name", "1234"));
+//            repository.save(new User("noname", "1234"));
+//            repository.save(new User("dendrit", "1234"));
+//            repository.save(new User("veralin", "1234"));
+//            repository.save(new User("planze", "1234"));
+//            repository.save(new User("name", "1234"));
 
             log.info("Users found with findAll(): ");
             for(User user : repository.findAll()) {

@@ -1,13 +1,11 @@
 package org.storageart.storageart.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.storageart.storageart.StorageArtApplication;
+import org.storageart.storageart.dto.UserData;
 import org.storageart.storageart.mapper.UserMapper;
 import org.storageart.storageart.repositories.UserRepository;
 
@@ -34,4 +32,11 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("There is no such user with username " + username)));
     }
 
+    public void addUser(UserData userData) {
+        userRepository.save(userMapper.toEntity(userData));
+    }
+
+    public boolean isUserExist(UserData userData) {
+        return userRepository.findByUsername(userData.getUsername()).isPresent();
+    }
 }
