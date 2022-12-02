@@ -41,6 +41,16 @@ public class UserController {
         return "login";
     }
 
+    @GetMapping("")
+    public String homeGet() {
+        return "home";
+    }
+
+    @GetMapping("/hello")
+    public String helloGet() {
+        return "hello";
+    }
+
     @GetMapping("/registration")
     public String registrationGet(Model model) {
         model.addAttribute("userData", new UserData());
@@ -54,7 +64,7 @@ public class UserController {
                     .rejectValue("username", null, "User with such name is already exists");
             return "registration";
         }
-        userService.addUser(userData);
+        userService.saveUser(userData);
         return "redirect:/login";
     }
 }

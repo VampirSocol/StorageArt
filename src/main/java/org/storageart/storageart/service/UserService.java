@@ -4,17 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.storageart.storageart.dto.UserData;
 import org.storageart.storageart.mapper.UserMapper;
 import org.storageart.storageart.repositories.UserRepository;
 
 @Service
+@Transactional
 public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
 
     private UserMapper userMapper;
+
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -26,13 +31,19 @@ public class UserService implements UserDetailsService {
         this.userMapper = userMapper;
     }
 
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
         return userMapper.toData(userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("There is no such user with username " + username)));
     }
 
-    public void addUser(UserData userData) {
+    public void saveUser(UserData userData) {
+        userData.setPassword(passwordEncoder.encode(userData.getPassword()));
         userRepository.save(userMapper.toEntity(userData));
     }
 
