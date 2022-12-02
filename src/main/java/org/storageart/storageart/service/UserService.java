@@ -6,13 +6,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.storageart.storageart.dto.UserData;
 import org.storageart.storageart.mapper.UserMapper;
 import org.storageart.storageart.repositories.UserRepository;
 
 @Service
-@Transactional
 public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
@@ -48,6 +46,6 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean isUserExist(UserData userData) {
-        return userRepository.findByUsername(userData.getUsername()).isPresent();
+        return userRepository.existsByUsername(userData.getUsername());
     }
 }
