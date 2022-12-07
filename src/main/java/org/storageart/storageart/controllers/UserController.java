@@ -8,28 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.storageart.storageart.dto.UserData;
-import org.storageart.storageart.mapper.UserMapper;
-import org.storageart.storageart.repositories.UserRepository;
-import org.storageart.storageart.service.UserService;
+import org.storageart.storageart.services.UserService;
 
 @Controller
 public class UserController {
 
-    private UserRepository userRepository;
-
-    private UserMapper userMapper;
-
     private UserService userService;
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Autowired
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
 
     @Autowired
     public void setUserService(UserService userService) {
