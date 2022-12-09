@@ -15,6 +15,7 @@ import org.storageart.storageart.exceptions.UserNotFoundByIdException;
 import org.storageart.storageart.services.ArtService;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Controller
 public class ArtController {
@@ -39,9 +40,10 @@ public class ArtController {
 
         UserData userData = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         artData.setUserId(userData.getId());
-        artData.setName(file.getOriginalFilename());
+        String uuid = UUID.randomUUID().toString();
+        artData.setName("/images/" + uuid + file.getOriginalFilename());
 
-        artService.saveToDirectory(file);
+        artService.saveToDirectory(file, uuid);
         artService.saveToRepository(artData);
 
         model.addAttribute("msg", "Uploaded images: " + file.getOriginalFilename());

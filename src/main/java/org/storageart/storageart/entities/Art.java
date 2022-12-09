@@ -41,4 +41,10 @@ public class Art {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Art name: " + name + "; By user: " + user.toString();
+    }
+
 }

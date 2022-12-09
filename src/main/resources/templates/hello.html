@@ -9,10 +9,21 @@
     Hello <span sec:authentication="principal.username"></span>!
 </h1>
 
-<a th:href="@{/addart}">Add new art</a>
-
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
+
+<a th:href="@{/addart}">Add new art</a>
+
+<div>
+    <table>
+        <tr th:each="art : ${artsData}">
+            <img th:src="${art.getName()}" width="700" height="700">
+        </tr>
+    </table>
+</div>
+
+<!---<img th:src="@{/images/art.jpg}" >--->
+
 </body>
 </html>
