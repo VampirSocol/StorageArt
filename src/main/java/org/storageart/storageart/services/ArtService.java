@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ArtService {
@@ -59,7 +60,10 @@ public class ArtService {
         artRepository.save(artMapper.toEntity(artData));
     }
 
-    public void saveToDirectory(MultipartFile file, String uuid) throws IOException {
+    public void saveToDirectory(MultipartFile file, ArtData artData) throws IOException {
+        String uuid = UUID.randomUUID().toString();
+        artData.setName("/images/" + uuid + file.getOriginalFilename());
+
         Path fileNameAndPath = Paths.get(UPLOAD_PATH, uuid + file.getOriginalFilename()).toAbsolutePath();
         File uploadDir = new File(UPLOAD_PATH);
         if (!uploadDir.exists()) {

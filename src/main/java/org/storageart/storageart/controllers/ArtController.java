@@ -13,6 +13,7 @@ import org.storageart.storageart.dto.ArtData;
 import org.storageart.storageart.dto.UserData;
 import org.storageart.storageart.exceptions.UserNotFoundByIdException;
 import org.storageart.storageart.services.ArtService;
+import org.storageart.storageart.services.UserService;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -22,9 +23,16 @@ public class ArtController {
 
     private ArtService artService;
 
+    private UserService userService;
+
     @Autowired
     public void setArtService(ArtService artService) {
         this.artService = artService;
+    }
+
+    @Autowired
+    public void setUserService(){
+        this.userService = userService;
     }
 
     @GetMapping("/addart")
@@ -38,12 +46,9 @@ public class ArtController {
                              @ModelAttribute("artData") ArtData artData,
                              Model model) throws IOException, UserNotFoundByIdException {
 
-        UserData userData = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        artData.setUserId(userData.getId());
-        String uuid = UUID.randomUUID().toString();
-        artData.setName("/images/" + uuid + file.getOriginalFilename());
+        artData.setUserId(userService.getUserOutOfContext().getId());
 
-        artService.saveToDirectory(file, uuid);
+        artService.saveToDirectory(file, artData);
         artService.saveToRepository(artData);
 
         model.addAttribute("msg", "Uploaded images: " + file.getOriginalFilename());
