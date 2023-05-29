@@ -8,7 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.storageart.storageart.entities.Art;
 import org.storageart.storageart.entities.User;
+import org.storageart.storageart.repositories.ArtRepository;
 import org.storageart.storageart.repositories.UserRepository;
 
 @SpringBootApplication
@@ -28,7 +30,7 @@ public class StorageArtApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(UserRepository repository) {
+    public CommandLineRunner demo(UserRepository repository, ArtRepository artRepository) {
         return (args) -> {
 //            repository.save(new User("noname", passwordEncoder.encode("1234")));
 //            repository.save(new User("dendrit", passwordEncoder.encode("1234")));
@@ -54,6 +56,13 @@ public class StorageArtApplication {
                     user -> log.info("Found user with {}", user),
                     () -> log.info("There is no user with id 1")
             );
+            log.info("");
+
+
+            log.info("Arts found with findAll(): ");
+            for(Art art : artRepository.findAll()) {
+                log.info(art.toString());
+            }
             log.info("");
 
 //            repository.deleteAll();
