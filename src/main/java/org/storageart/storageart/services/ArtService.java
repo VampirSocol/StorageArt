@@ -33,6 +33,8 @@ public class ArtService {
 
     private UserMapper userMapper;
 
+    private UserService userService;
+
     @Value("${upload.path}")
     private String UPLOAD_PATH;
 
@@ -56,11 +58,21 @@ public class ArtService {
         this.userMapper = userMapper;
     }
 
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     public void saveToRepository(ArtData artData) throws UserNotFoundByIdException {
         artRepository.save(artMapper.toEntity(artData));
     }
 
-    public void saveToDirectory(MultipartFile file, ArtData artData) throws IOException {
+    public ArtData saveToDirectory(MultipartFile file) throws IOException {
+
+        ArtData artData = new ArtData();
+
+        artData.setUserId(userService.getUserOutOfContext().getId());
+
         String uuid = UUID.randomUUID().toString();
         artData.setName("/images/" + uuid + file.getOriginalFilename());
 
@@ -71,6 +83,8 @@ public class ArtService {
             Files.createDirectories(uploadPath);
         }
         Files.write(fileNameAndPath.toAbsolutePath(), file.getBytes());
+
+        return artData;
     }
 
     public List<ArtData> getByUser(UserData userData) {
@@ -84,5 +98,6 @@ public class ArtService {
 
         return artsData;
     }
+
 
 }

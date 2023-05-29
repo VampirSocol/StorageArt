@@ -1,29 +1,34 @@
 package org.storageart.storageart.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.storageart.storageart.dto.ArtData;
 import org.storageart.storageart.dto.UserData;
 import org.storageart.storageart.exceptions.UserNotFoundByIdException;
+import org.storageart.storageart.mapper.UserMapper;
 import org.storageart.storageart.services.ArtService;
 import org.storageart.storageart.services.UserService;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
+@RequestMapping(path = "/arts")
 public class ArtController {
 
     private ArtService artService;
 
     private UserService userService;
+
+    private UserMapper userMapper;
 
     @Autowired
     public void setArtService(ArtService artService) {
@@ -31,28 +36,29 @@ public class ArtController {
     }
 
     @Autowired
-    public void setUserService(){
+    public void setUserService(UserService userService){
         this.userService = userService;
     }
 
-    @GetMapping("/addart")
-    public String addArtGet(Model model){
-        model.addAttribute("artData", new ArtData());
-        return "addart";
+    @Autowired
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
-    @PostMapping("/addart")
-    public String addArtPost(@RequestParam("image")MultipartFile file,
-                             @ModelAttribute("artData") ArtData artData,
-                             Model model) throws IOException, UserNotFoundByIdException {
+//    @GetMapping("/addArt")
+//    public String addArtGet(Model model){
+//        model.addAttribute("artData", new ArtData());
+//        return "addart";
+//    }
 
-        artData.setUserId(userService.getUserOutOfContext().getId());
+    @PostMapping("/addArt")
+    public ResponseEntity<ArtData> addArtPost(@RequestParam/*("image")*/MultipartFile file)
+            throws IOException, UserNotFoundByIdException {
 
-        artService.saveToDirectory(file, artData);
+        ArtData artData = artService.saveToDirectory(file);
         artService.saveToRepository(artData);
+        return ResponseEntity.status(HttpStatus.CREATED).body(artData);
 
-        model.addAttribute("msg", "Uploaded images: " + file.getOriginalFilename());
-        return "redirect:/hello";
      }
 
 }

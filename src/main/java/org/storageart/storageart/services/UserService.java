@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.storageart.storageart.dto.UserData;
 import org.storageart.storageart.entities.User;
+import org.storageart.storageart.exceptions.UserAlreadyExistException;
 import org.storageart.storageart.exceptions.UserNotFoundByIdException;
 import org.storageart.storageart.mapper.UserMapper;
 import org.storageart.storageart.repositories.UserRepository;
@@ -67,5 +68,12 @@ public class UserService implements UserDetailsService {
         return userData;
     }
 
+    public UserData registration(UserData userData){
+        if (isUserExist(userData)) {
+            throw new UserAlreadyExistException("User with username '" + userData.getUsername() + "' already exist");
+        }
+        saveUser(userData);
+        return userData;
+    }
 
 }

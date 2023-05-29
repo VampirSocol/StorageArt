@@ -7,4 +7,4 @@ services:
       POSTGRES_USER: vampir
       POSTGRES_DB: storageart
     ports:
-      - "5432:5432"
+      - "5431:5432"
